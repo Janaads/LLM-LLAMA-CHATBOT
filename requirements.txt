@@ -1,3 +1,7 @@
-streamlit 
-pandas 
+streamlit
+pandas
+networkx
+pyvis
+llama-index
+langchain
 groq
