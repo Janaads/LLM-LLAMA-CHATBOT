@@ -4,6 +4,12 @@ import streamlit as st
 import pandas as pd
 from groq import Groq
 
+# Streamlit page configuration
+st.set_page_config(
+    page_title="Coder Connects LLAMA 3.1",
+    layout="centered"
+)
+
 # Define the working directory and load the data
 working_dir = os.path.dirname(os.path.abspath(__file__))
 config_data = json.load(open(f"{working_dir}/config.json"))
@@ -35,19 +41,16 @@ if "csv_data" not in st.session_state:
     st.session_state.csv_data = None
 
 # Streamlit page title
-st.title("Distributed UI core Exploitation Pattern Platform using cloud")
+st.title(" CSV Chatbot")
 
-# Direct CSV file path
-csv_file_path = r"C:\Users\Jana Sorupaa\OneDrive\Desktop\chatbot\sample 1000.csv"  
-
-# Load the CSV file directly with error handling
-try:
-    st.session_state.csv_data = pd.read_csv(csv_file_path, on_bad_lines='skip')
-    st.success("CSV file loaded successfully!")
-    # Display a preview of the CSV data
-    st.dataframe(st.session_state.csv_data.head(100))
-except Exception as e:
-    st.error(f"Error loading CSV file: {e}")
+# File uploader for CSV
+uploaded_file = st.file_uploader("Upload a CSV file for question answering:", type="csv")
+if uploaded_file:
+    try:
+        st.session_state.csv_data = pd.read_csv(uploaded_file)
+        st.success("CSV file loaded successfully!")
+    except Exception as e:
+        st.error(f"Error loading CSV file: {e}")
 
 # Display the chat history
 for message in st.session_state.chat_history:
@@ -55,21 +58,22 @@ for message in st.session_state.chat_history:
         st.markdown(message["content"])
 
 # Input field for user message
-user_prompt = st.chat_input("Ask LLAMA 3.1.....")
+user_prompt = st.chat_input("Ask Coder Connects LLAMA 3.1.....")
 
 if user_prompt:
     st.chat_message("user").markdown(user_prompt)
     st.session_state.chat_history.append({"role": "user", "content": user_prompt})
 
-    # Prepare context from the CSV file if loaded
+    # Prepare context from the CSV file if uploaded
     csv_context = ""
     if st.session_state.csv_data is not None:
+        # Convert CSV data to a string context (limiting to first 5 rows for brevity)
         csv_preview = st.session_state.csv_data.head(100).to_string(index=False)
         csv_context = f"The user has uploaded a CSV file. Here is a preview of its content:\n{csv_preview}\n"
 
     # Send user's message to LLM with context and get a response
     messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": "You are a helpful assistant"},
         {"role": "system", "content": csv_context},
         *st.session_state.chat_history
     ]
