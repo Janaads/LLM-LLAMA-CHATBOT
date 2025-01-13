@@ -4,12 +4,6 @@ import streamlit as st
 import pandas as pd
 from groq import Groq
 
-# Streamlit page configuration
-st.set_page_config(
-    page_title="Coder Connects LLAMA 3.1",
-    layout="centered"
-)
-
 # Define the working directory and load the data
 working_dir = os.path.dirname(os.path.abspath(__file__))
 config_data = json.load(open(f"{working_dir}/config.json"))
@@ -41,7 +35,7 @@ if "csv_data" not in st.session_state:
     st.session_state.csv_data = None
 
 # Streamlit page title
-st.title("CSV Chatbot")
+st.title("Distributed UI core Exploitation Pattern Platform using cloud")
 
 # Direct CSV file path
 csv_file_path = r"C:\Users\Jana Sorupaa\OneDrive\Desktop\chatbot\sample 1000.csv"  
@@ -61,7 +55,7 @@ for message in st.session_state.chat_history:
         st.markdown(message["content"])
 
 # Input field for user message
-user_prompt = st.chat_input("Ask Coder Connects LLAMA 3.1.....")
+user_prompt = st.chat_input("Ask LLAMA 3.1.....")
 
 if user_prompt:
     st.chat_message("user").markdown(user_prompt)
